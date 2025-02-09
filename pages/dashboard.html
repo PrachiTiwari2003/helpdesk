@@ -1,0 +1,527 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(to right, #e3f2fd, #90caf9);
+            display: flex;
+            flex-direction: row;
+        }
+        .top-nav {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background-color: #0078d4;
+            color: white;
+            padding: 10px 20px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        /* Navbar */
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #1565c0;
+            color: white;
+            padding: 10px 20px;
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+        }
+ 
+        .navbar .left-section {
+            display: flex;
+            align-items: center;
+        }
+ 
+        .navbar .logo {
+            font-size: 18px;
+            font-weight: bold;
+            margin-right: 15px;
+        }
+ 
+        .navbar .menu-icon {
+            font-size: 20px;
+            cursor: pointer;
+        }
+ 
+        .navbar .right-section {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+ 
+        .navbar .icon {
+            font-size: 18px;
+            cursor: pointer;
+        }
+ 
+        .navbar .profile {
+            display: flex;
+            align-items: center;
+        }
+ 
+        .navbar .profile img {
+            width: 25px;
+            height: 25px;
+            border-radius: 50%;
+            margin-left: 8px;
+        }
+ 
+    /* Sidebar */
+    .sidebar {
+    width: 220px;
+    background-color: #1565c0;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    padding-top: 20px;
+    box-sizing: border-box; /* Include padding in the width */
+    overflow-y: auto; /* Allow vertical scrolling if content exceeds height */
+   }
+ 
+   .sidebar .menu-item {
+    padding: 12px 20px;
+    margin-bottom: 5px;
+    cursor: pointer;
+    display: flex;
+    align-items: center; /* Ensures icons and text stay aligned */
+    gap: 10px;
+    transition: background 0.3s;
+}
+.sidebar .menu-item {
+    justify-content: flex-start; /* Keeps text on the left */
+}
+.sidebar .menu-item button {
+    background-color: white;
+    color: #1565c0;
+    border: none;
+    padding: 4px 10px;
+    font-size: 12px;
+    font-weight: bold;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-left: auto; /* Push button to the right while keeping text in place */
+}
+.sidebar .menu-item button:hover {
+    background-color: #1e88e5;
+    color: white;
+}
+ 
+  .sidebar .menu-item:last-child {
+    margin-bottom: 0; /* Remove extra space at the bottom */
+   }
+ 
+  .sidebar .menu-item:hover {
+    background-color: #1e88e5;
+  }
+ 
+  .sidebar .menu-item i {
+    font-size: 18px; /* Adjust icon size */
+  }
+ 
+  .sidebar .menu-dropdown {
+    padding-left: 20px; /* Ensure dropdown aligns with menu items */
+    display: none;
+  } 
+ 
+  .sidebar .menu-item.active + .menu-dropdown {
+    display: flex;
+    flex-direction: column;
+  }
+ 
+  .menu-item .caret {
+    margin-left: auto;
+  }
+
+ 
+ 
+        /* Dashboard */
+        .dashboard {
+            flex: 1;
+            padding: 20px;
+        }
+        .dashboard-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        .dashboard-header h1 {
+            font-size: 24px;
+            color: #1565c0;
+        }
+ 
+        .dashboard-header .nav-icons {
+            display: flex;
+            align-items: center;
+        }
+        .dashboard-header .nav-icons i {
+            margin: 0 10px;
+            font-size: 18px;
+            cursor: pointer;
+        }
+        .profile {
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+        }
+        .profile img {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            margin-left: 5px;
+            object-fit: cover;
+        }
+ 
+        /* Stats Cards */
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+        }
+        .stats-card {
+            padding: 20px;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            cursor: pointer;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        .stats-card:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2);
+        }
+        .stats-card i {
+            font-size: 32px;
+            color: #1565c0;
+        }
+        .stats-card h3 {
+            margin: 10px 0 5px;
+            font-size: 18px;
+        }
+        .stats-card p {
+            margin: 0;
+            color: #757575;
+            font-weight: bold;
+        }
+ 
+        /* Immediate Action and To-Do List */
+        .row {
+            display: flex;
+            gap: 20px;
+            margin-top: 20px;
+        }
+        .immediate-action {
+            flex: 1;
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+        .immediate-action h2 {
+            font-size: 18px;
+            color: #1565c0;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+        }
+        .action-list {
+            max-height: 300px;
+            overflow-y: auto;
+            border-top: 1px solid #ddd;
+            padding-top: 10px;
+        }
+        .action-list ul {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+        }
+        .action-list li {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px;
+            border-bottom: 1px solid #ddd;
+        }
+        .action-list li span {
+            font-size: 14px;
+            color: #424242;
+        }
+        .action-list li .status {
+            background: #ffc107;
+            color: #fff;
+            font-size: 12px;
+            padding: 3px 8px;
+            border-radius: 4px;
+            text-transform: uppercase;
+        }
+        .action-list li:hover {
+            background: #f5f5f5;
+        }
+        
+        .todo {
+            flex: 1.2;
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        .todo h3 {
+            margin-bottom: 10px;
+            color: #1565c0;
+        }
+        .todo input {
+            width: calc(100% - 40px);
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            margin-bottom: 10px;
+        }
+        .todo input[type="search"] {
+            margin-top: 10px;
+        }
+        .todo ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        .todo li {
+            background: white;
+            padding: 10px;
+            margin-bottom: 5px;
+            border-radius: 4px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+    </style>
+</head>
+<body>
+   <!-- Sidebar -->
+<div class="sidebar">
+    <div class="menu-item">
+        <i class="fas fa-home"></i> Dashboard
+    </div>
+
+    <!-- Tickets Dropdown -->
+    <div class="menu-item active" onclick="toggleDropdown('tickets-dropdown')">
+        <i class="fa fa-plus-circle"></i> Tickets
+        <i class="fas fa-caret-down caret"></i>
+    </div>
+    <div id="tickets-dropdown" class="menu-dropdown">
+        <div class="menu-item">
+            <i class="fa fa-folder-open"></i> Open Tickets<button>4</button>
+        </div>
+        <div class="menu-item">
+            <i class="fa fa-user"></i> My Tickets<button>4</button>
+        </div>
+        <div class="menu-item">
+            <i class="fa fa-users"></i> Unassigned Tickets<button>4</button>
+        </div>
+        <div class="menu-item">
+            <i class="fa fa-exclamation-circle"></i> Overdue Tickets<button>4</button>
+        </div>
+        <div class="menu-item">
+            <i class="fa fa-envelope-open"></i> Unanswered Tickets<button>4</button>
+        </div>
+        <div class="menu-item">
+            <i class="fa fa-ban"></i> Unapproved Tickets<button>4</button>
+        </div>
+        <div class="menu-item">
+            <i class="fa fa-thumbs-up"></i> My Pending Approvals<button>4</button>
+        </div>
+        <div class="menu-item">
+            <i class="fa fa-check-circle"></i> Closed Tickets<button>4</button>
+        </div>
+    </div>
+
+    <!-- Spam -->
+    <div class="menu-item" onclick="toggleDropdown('spam-dropdown')">
+        <i class="fa fa-exclamation-triangle"></i> Spam
+        <i class="fas fa-caret-down caret"></i>
+    </div>
+    <div id="spam-dropdown" class="menu-dropdown">
+        <div class="menu-item">Spam Emails</div>
+        <div class="menu-item">Blocked Senders</div>
+    </div>
+
+    <!-- Trash -->
+    <div class="menu-item" onclick="toggleDropdown('trash-dropdown')">
+        <i class="fa fa-trash-alt"></i> Trash
+        <i class="fas fa-caret-down caret"></i>
+    </div>
+    <div id="trash-dropdown" class="menu-dropdown">
+        <div class="menu-item">Deleted Items</div>
+        <div class="menu-item">Restore Files</div>
+    </div>
+
+    <!-- My Filters -->
+    <div class="menu-item" onclick="toggleDropdown('filters-dropdown')">
+        <i class="fa fa-filter"></i> My Filters
+        <i class="fas fa-caret-down caret"></i>
+    </div>
+    <div id="filters-dropdown" class="menu-dropdown">
+        <div class="menu-item">Manage Filters</div>
+        <div class="menu-item">Create New Filter</div>
+    </div>
+
+    <!-- Shared Filters -->
+    <div class="menu-item">
+        <i class="fa fa-share-alt"></i> Shared Filters
+    </div>
+
+    <!-- Contacts -->
+    <div class="menu-item">
+        <i class="fa fa-address-book"></i> Contacts
+    </div>
+</div>
+
+    </body>
+   
+ 
+    <!-- Dashboard -->
+    <div class="dashboard">
+        <div class="dashboard-header">
+            <h1>Dashboard</h1>
+           
+            <div class="nav-icons">
+                <i class="fas fa-address-book"></i>
+                <i class="fas fa-search"></i>
+                <i class="fas fa-bell"></i>
+                <div class="profile">
+                   <img src="https://placehold.co/30x30" alt="User">
+ 
+                    Effortech Support Team
+                </div>
+            </div>
+        </div>
+ 
+        <!-- Stats Cards -->
+        <!-- Dashboard -->
+        <div class="dashboard">
+            <!-- Stats Cards -->
+            <div class="stats">
+                <div class="stats-card" onclick="window.location.href='/open_ticket'">
+                    <i class="fas fa-folder-open"></i>
+                    <a href="/open_ticket"><h3>Open Tickets</h3></a>
+                    <p><span style="font-weight: bold; color: black;">436</span></p>
+                </div>
+                <div class="stats-card" onclick="window.location.href='/open_ticket'">
+                    <i class="fas fa-user"></i>
+                    <a href="/open_ticket"><h3>My Tickets</h3></a>
+                    <p><span style="font-weight: bold; color: black;">436</span></p>
+                </div>
+                <div class="stats-card" onclick="window.location.href='/open_ticket'">
+                    <i class="fas fa-exclamation-circle"></i>
+                    <a href="/open_ticket"><h3>Overdue Tickets</h3></a>
+                    <p><span style="font-weight: bold; color: black;">436</span></p>
+                </div>
+                <div class="stats-card" onclick="window.location.href='/open_ticket'">
+                    <i class="fas fa-envelope-open"></i>
+                    <a href="/open_ticket"><h3>Unanswered Tickets</h3></a>
+                    <p><span style="font-weight: bold; color: black;">436</span></p>
+                </div>
+                <div class="stats-card" onclick="window.location.href='/open_ticket'">
+                    <i class="fas fa-hourglass"></i>
+                    <a href="/open_ticket"><h3>My Pending Approvals</h3></a>
+                    <p><span style="font-weight: bold; color: black;">436</span></p>
+                </div>
+                <div class="stats-card" onclick="window.location.href='/open_ticket'">
+                    <i class="fas fa-calendar-check"></i>
+                    <a href="/open_ticket"><h3>My Due Today Tickets</h3></a>
+                    <p><span style="font-weight: bold; color: black;">436</span></p>
+                </div>
+            </div>
+ 
+        <!-- Immediate Action and To-Do List -->
+        <div class="row">
+            <section class="immediate-action">
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                    <h2 style="margin: 0;">
+                        <i class="fas fa-exclamation-triangle" style="color: red; margin-right: 8px;"></i>
+                        Requires Immediate Action
+                        <i class="fas fa-info-circle" style="color: #90caf9; margin-left: 8px;"></i>
+                    </h2>
+                    <button class="refresh-button" onclick="refreshImmediateActions()" style="background: none; border: none; cursor: pointer;">
+                        <i class="fas fa-sync-alt" style="font-size: 16px; color: #1565c0;"></i>
+                    </button>
+                </div>
+                <div class="action-list">
+                    <ul>
+                        <li>
+                            <span>SMCB-0001-8943 Narration in charges from HGCHRG</span>
+                            <span class="status">Reopened</span>
+                        </li>
+                        <li>
+                            <span>SSFB-AAAG-G366 Authorization link not showing</span>
+                            <span class="status">Reopened</span>
+                        </li>
+                        <li>
+                            <span>SSFB-AAQO-6339 Critical NPA issue in CBS</span>
+                            <span class="status">Reopened</span>
+                        </li>
+                        <li>
+                            <span>SSFB-AAQO-5860 Saving Account in Debit Balance as of Feb-24</span>
+                            <span class="status">Reopened</span>
+                        </li>
+                        <li>
+                            <span>SSFB-AAAU-7216 Debit freeze removal for account closure</span>
+                            <span class="status">Reopened</span>
+                        </li>
+                        <li>
+                            <span>SSFB-AAAV-4835 Account activation for closer</span>
+                            <span class="status">Reopened</span>
+                        </li>
+                        <li>
+                            <span>SSFB-AAAV-7544 NITIN GOYAL KYC AND UPDATION OF CONTACT</span>
+                            <span class="status">Reopened</span>
+                        </li>
+                        <li>
+                            <span>SSFB-AAAV-8821 Request to activate customer a/c</span>
+                            <span class="status">Reopened</span>
+                        </li>
+                    </ul>
+                </div>
+            </section>
+            <div class="todo">
+                <h3>To-Do List</h3>
+                <input type="text" placeholder="What needs to be done?">
+                <ul>
+                    <li>"For every minute spent organizing, an hour is earned."</li>
+                </ul>
+            </div>
+        </div>
+        <script>
+            // Function to refresh the page
+            function refreshImmediateActions() {
+                location.reload(); // Reloads the current page
+            }
+        </script>
+       
+ 
+    <script>
+        // Dropdown toggle
+        document.querySelectorAll('.menu-item').forEach(item => {
+            item.addEventListener('click', () => {
+                item.classList.toggle('active');
+            });
+        });
+    </script>
+</body>
+</html>
+ 
+ 
+ 
+ 

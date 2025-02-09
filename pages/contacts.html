@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Helpdesk System</title>
+</head>
+<style>
+    body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background: #f4f4f4;
+}
+
+/* Navbar */
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    background: #026B5D;
+    padding: 15px 20px;
+}
+
+/* Navbar Links */
+.nav-links a {
+    color: white;
+    text-decoration: none;
+    margin-right: 15px;
+    font-weight: bold;
+    padding: 8px 8px;
+    transition: background 0.3s ease, color 0.3s ease;
+}
+
+/* Hover Effect for Navbar Links */
+.nav-links a:hover {
+    background: #008577; /* Slightly lighter green */
+    border-radius: 5px;
+}
+
+/* Active Page */
+.nav-links .active {
+    background: black;
+    padding: 8px;
+    border-radius: 5px;
+}
+
+/* User Profile */
+.user-profile {
+    color: white;
+    font-weight: bold;
+    display: flex;
+}
+
+.user-name {
+    padding: 5px;
+}
+
+.user-icon {
+    height: 24px;
+    width: 24px;
+}
+
+
+/* Container */
+.container {
+    width: 90%;
+    margin: 20px auto;
+    background: white;
+    padding: 20px;
+    border-radius: 5px;
+}
+
+/* Add New Button */
+.add-new {
+    background: green;
+    color: white;
+    padding: 8px;
+    border: none;
+    cursor: pointer;
+    float: right;
+    margin-bottom: 10px;
+    transition: background 0.3s ease;
+}
+
+/* Hover Effect for Add New Button */
+.add-new:hover {
+    background: darkgreen;
+}
+
+/* Table */
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th, td {
+    padding: 10px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+/* Table Row Hover Effect */
+tr:hover {
+    background: #f1f1f1; /* Light grey */
+}
+
+/* Role Badges */
+.role {
+    padding: 5px 10px;  /* Ensure equal padding */
+    border-radius: 4px;
+    display: inline-block; /* Ensures uniform width */
+    text-align: center;  /* Centers text */
+    min-width: 80px;  /* Ensures equal width */
+    font-weight: bold;
+}
+
+/* Member Role */
+.member {
+    background: orange;
+    color: rgb(34, 33, 33); /* Same as .edit button text color */
+}
+
+/* Admin Role (Updated) */
+.admin {
+    background: rgb(227, 20, 20);
+    color: white;
+    min-width: 80px;  /* Matches .member width */
+    text-align: center;  /* Ensures centered text */
+}
+
+
+/* Status Badges */
+.status {
+    padding: 5px 10px;  /* Ensure equal padding */
+    border-radius: 4px;
+    display: inline-block; /* Ensures the width is uniform */
+    text-align: center;  /* Centers text */
+    min-width: 70px;  /* Ensures equal width */
+}
+
+/* Active Status */
+.active {
+    background: green;
+    color: white;
+    font-weight: bold;
+}
+
+/* Inactive Status (Updated) */
+.inactive {
+    background: gray;
+    color: white;
+    font-weight: bold;
+    padding: 5px 10px;  /* Matches .active padding */
+    min-width: 70px;  /* Matches .active width */
+    text-align: center;  /* Ensures centered text */
+}
+
+
+/* Edit and Delete Buttons */
+button.edit, button.delete {
+    border: none;
+    padding: 5px 10px;
+    cursor: pointer;
+    transition: opacity 0.3s ease;
+}
+
+button.edit {
+    background: orange;
+    color: rgb(34, 33, 33);
+}
+    
+
+/* Hover Effect for Edit Button */
+button.edit:hover {
+    background: darkorange;
+    
+}
+
+/* Hover Effect for Delete Button */
+button.delete {
+    background: rgb(227, 20, 20);
+    color: white;
+}
+
+/* Hover Effect for Delete Button */
+button.delete:hover {
+    background: rgb(227, 20, 20);
+}
+
+.entries-count {
+    margin-top: 10px;
+    font-size: 14px;
+    color: #555;
+}
+
+
+/* Pagination */
+.pagination {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.pagination button {
+    padding: 8px 12px;
+    margin: 5px;
+    border: none;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+/* Pagination Active Page */
+.pagination .active {
+    background: black;
+    color: white;
+}
+
+/* Hover Effect for Pagination Buttons */
+.pagination button:hover {
+    background: gray;
+    color: white;
+}
+
+
+</style>
+<body>
+    <!-- Navbar -->
+    <div class="navbar">
+        <div class="nav-links">
+            <a href="#" onclick="showSection('ticket')">Ticket</a>
+            <a href="#" onclick="showSection('department')">Department</a>
+            <a href="#" onclick="showSection('users')" class="active">Users</a>
+        </div>
+        <div class="user-profile">
+            <span class="user-name">
+                Hardik Chaudhary
+           </span>
+            <img
+                src="../assets/user_icon.png"
+                class="user-icon"
+            />
+        </div>
+    </div>
+
+    <!-- Container -->
+    <div class="container">
+        <h2>Helpdesk System</h2>
+
+        <!-- Add New Button -->
+        <button class="add-new">Add New</button>
+
+        <!-- Users Table -->
+        <table>
+            <thead>
+                <tr>
+                    <th>S/N</th>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Created</th>
+                    <th>Role</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody id="userTable">
+                <tr>
+                    <td>1</td>
+                    <td>Shaswat Sahu</td>
+                    <td>sshaswat@gmail.com</td>
+                    <td>2024-06-15 18:30:58</td>
+                    <td><span class="role member">Member</span></td>
+                    <td><span class="status inactive">Inactive</span></td>
+                    <td>
+                        <button class="edit">Edit</button>
+                        <button class="delete">Delete</button>
+                    </td>
+                </tr>
+                <tr>
+                    <td>2</td>
+                    <td>Rakshita</td>
+                    <td>rakshita@effortech.com</td>
+                    <td>2024-06-15 18:30:18</td>
+                    <td><span class="role admin">Admin</span></td>
+                    <td><span class="status active">Active</span></td>
+                    <td>
+                        <button class="edit">Edit</button>
+                        <button class="delete">Delete</button>
+                    </td>
+                </tr>
+                <tr>
+                    <td>3</td>
+                    <td>Ateendra Kumar</td>
+                    <td>ateendra@effortech.com</td>
+                    <td>2024-06-15 18:30:04</td>
+                    <td><span class="role admin">Admin</span></td>
+                    <td><span class="status active">Active</span></td>
+                    <td>
+                        <button class="edit">Edit</button>
+                        <button class="delete">Delete</button>
+                    </td>
+                </tr>
+                <tr>
+                    <td>4</td>
+                    <td>Varun Mishra</td>
+                    <td>mvarun@effortech.com</td>
+                    <td>2024-06-13 00:21:43</td>
+                    <td><span class="role member">Member</span></td>
+                    <td><span class="status active">Active</span></td>
+                    <td>
+                        <button class="edit">Edit</button>
+                        <button class="delete">Delete</button>
+                    </td>
+                </tr>
+                <tr>
+                    <td>5</td>
+                    <td>Hardik Chaudhary</td>
+                    <td>hchaudhary@effortech.com</td>
+                    <td>2024-06-13 00:21:13</td>
+                    <td><span class="role admin">Admin</span></td>
+                    <td><span class="status active">Active</span></td>
+                    <td>
+                        <button class="edit">Edit</button>
+                        <button class="delete">Delete</button>
+                    </td>
+                </tr>
+            </tbody>
+            
+        </table>
+        
+        <!-- Entries Count -->
+        <div class="entries-count">Showing 1 to 5 of 5 entries</div>
+
+
+        <!-- Pagination -->
+        <div class="pagination">
+            <button class="prev">Previous</button>
+            <button class="page-number active">1</button>
+            <button class="next">Next</button>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+    let userTable = document.getElementById("userTable");
+    let users = [
+        { sn: 1, name: "Shaswat Sahu", email: "sshaswat@gmail.com", created: "2024-06-15 18:30:58", role: "Member", status: "Inactive" },
+        { sn: 2, name: "Rakshita", email: "rakshita@effortech.com", created: "2024-06-15 18:30:18", role: "Admin", status: "Active" },
+        { sn: 3, name: "Ateendra Kumar", email: "ateendra@effortech.com", created: "2024-06-15 18:30:04", role: "Admin", status: "Active" },
+        { sn: 4, name: "Varun Mishra", email: "mvarun@effortech.com", created: "2024-06-13 00:21:43", role: "Member", status: "Active" },
+        { sn: 5, name: "Hardik Chaudhary", email: "hchaudhary@effortech.com", created: "2024-06-13 00:21:13", role: "Admin", status: "Active" }
+    ];
+
+    // Function to get the current date-time in the required format
+    function getCurrentDateTime() {
+        let now = new Date();
+        return now.getFullYear() + "-" +
+            String(now.getMonth() + 1).padStart(2, "0") + "-" +
+            String(now.getDate()).padStart(2, "0") + " " +
+            String(now.getHours()).padStart(2, "0") + ":" +
+            String(now.getMinutes()).padStart(2, "0") + ":" +
+            String(now.getSeconds()).padStart(2, "0");
+    }
+
+    // Function to check if the user logged in today and update the created date
+    function updateUserLoginDate() {
+        let todayDate = new Date().toISOString().split("T")[0]; // Get today's date in YYYY-MM-DD format
+
+        users.forEach(user => {
+            let userDate = user.created.split(" ")[0]; // Extract only the date part
+            if (userDate === todayDate) {
+                user.created = getCurrentDateTime(); // Update to current date-time
+            }
+        });
+    }
+
+    // Render the table
+    function renderTable() {
+        userTable.innerHTML = "";
+        users.forEach((user, index) => {
+            let row = `<tr>
+                <td>${user.sn}</td>
+                <td>${user.name}</td>
+                <td>${user.email}</td>
+                <td>${user.created}</td>
+                <td><span class="role ${user.role.toLowerCase()}">${user.role}</span></td>
+                <td><span class="status ${user.status.toLowerCase()}">${user.status}</span></td>
+                <td>
+                    <button class="edit" onclick="editUser(${index})">Edit</button>
+                    <button class="delete" onclick="deleteUser(${index})">Delete</button>
+                </td>
+            </tr>`;
+            userTable.innerHTML += row;
+        });
+    }
+
+    // Add New User
+    document.querySelector(".add-new").addEventListener("click", function () {
+        let name = prompt("Enter Name:");
+        let email = prompt("Enter Email:");
+        let role = prompt("Enter Role (Admin/Member):");
+        let status = prompt("Enter Status (Active/Inactive):");
+
+        if (name && email && role && status) {
+            let newUser = {
+                sn: users.length ? users[0].sn + 1 : 1,
+                name,
+                email,
+                created: getCurrentDateTime(), // Automatically set the created date
+                role: role.charAt(0).toUpperCase() + role.slice(1).toLowerCase(),
+                status: status.charAt(0).toUpperCase() + status.slice(1).toLowerCase()
+            };
+            users.unshift(newUser);  // Add to the top
+            renderTable();
+        } else {
+            alert("Invalid input! Please enter all fields.");
+        }
+    });
+
+    // Edit User
+    window.editUser = function (index) {
+        let user = users[index];
+        let newName = prompt("Edit Name:", user.name);
+        let newEmail = prompt("Edit Email:", user.email);
+        let newRole = prompt("Edit Role (Admin/Member):", user.role);
+        let newStatus = prompt("Edit Status (Active/Inactive):", user.status);
+
+        if (newName && newEmail && newRole && newStatus) {
+            users[index] = { ...user, name: newName, email: newEmail, role: newRole, status: newStatus };
+            renderTable();
+        } else {
+            alert("Invalid input! No changes made.");
+        }
+    };
+
+    // Delete User
+    window.deleteUser = function (index) {
+        if (confirm("Are you sure you want to delete this user?")) {
+            users.splice(index, 1);
+            renderTable();
+        }
+    };
+
+    document.addEventListener("DOMContentLoaded", function() {
+        let totalEntries = document.querySelectorAll("#userTable tr").length;
+        let entriesCount = document.querySelector(".entries-count");
+        
+        // Update text dynamically
+        entriesCount.textContent = `Showing 1 to ${totalEntries} of ${totalEntries} entries`;
+    });
+    
+
+    // Pagination Logic
+    let currentPage = 1;
+    let rowsPerPage = 5;
+
+    function paginate() {
+        let start = (currentPage - 1) * rowsPerPage;
+        let end = start + rowsPerPage;
+        let paginatedUsers = users.slice(start, end);
+
+        userTable.innerHTML = "";
+        paginatedUsers.forEach((user, index) => {
+            let row = `<tr>
+                <td>${user.sn}</td>
+                <td>${user.name}</td>
+                <td>${user.email}</td>
+                <td>${user.created}</td>
+                <td><span class="role ${user.role.toLowerCase()}">${user.role}</span></td>
+                <td><span class="status ${user.status.toLowerCase()}">${user.status}</span></td>
+                <td>
+                    <button class="edit" onclick="editUser(${index})">Edit</button>
+                    <button class="delete" onclick="deleteUser(${index})">Delete</button>
+                </td>
+            </tr>`;
+            userTable.innerHTML += row;
+        });
+
+        document.querySelector(".page-number").textContent = currentPage;
+    }
+
+    document.querySelector(".prev").addEventListener("click", function () {
+        if (currentPage > 1) {
+            currentPage--;
+            paginate();
+        }
+    });
+
+    document.querySelector(".next").addEventListener("click", function () {
+        if (currentPage * rowsPerPage < users.length) {
+            currentPage++;
+            paginate();
+        }
+    });
+
+    updateUserLoginDate(); // Update login date for users logged in today
+    renderTable(); // Render table after updating login date
+});
+
+    </script>
+</body>
+</html>
